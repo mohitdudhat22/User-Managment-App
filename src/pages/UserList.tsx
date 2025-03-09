@@ -235,7 +235,8 @@ export const UserList = () => {
   return (
     <Box sx={{ 
       width: '100%', 
-      p: 4,
+      p: { xs: 2, sm: 3, md: 4 },
+      mt: 8,
       animation: 'fadeIn 0.3s ease-in-out',
       '@keyframes fadeIn': {
         '0%': { opacity: 0, transform: 'translateY(10px)' },
@@ -252,7 +253,7 @@ export const UserList = () => {
         borderColor: 'grey.500'
       }}>
         <Box sx={{ 
-          p: 2, 
+          p: { xs: 1.5, sm: 2 },
           bgcolor: 'background.default',
           borderBottom: 1,
           borderColor: 'divider'
@@ -262,7 +263,7 @@ export const UserList = () => {
           </Typography>
           <Box sx={{ 
             display: 'flex', 
-            gap: 2, 
+            gap: { xs: 1, sm: 2 },
             flexWrap: 'wrap',
             alignItems: 'center'
           }}>
@@ -272,7 +273,7 @@ export const UserList = () => {
               value={searchTerm}
               onChange={handleSearch}
               sx={{
-                minWidth: 220,
+                width: { xs: '100%', sm: 220 },
                 '& .MuiOutlinedInput-root': {
                   borderRadius: 2,
                   bgcolor: 'background.paper'
@@ -282,7 +283,12 @@ export const UserList = () => {
                 startAdornment: <SearchIcon color="action" sx={{ mr: 1 }} />
               }}
             />
-            <FormControl size="small" sx={{ minWidth: 150 }}>
+            <FormControl 
+              size="small" 
+              sx={{ 
+                width: { xs: '100%', sm: 150 }
+              }}
+            >
               <InputLabel>Filter by Role</InputLabel>
               <Select
                 value={filters.role}
@@ -298,47 +304,56 @@ export const UserList = () => {
                 <MenuItem value="user">User</MenuItem>
               </Select>
             </FormControl>
-            <Box sx={{ flexGrow: 1 }} />
-            {selectedUserIds.length > 0 && (
+            <Box sx={{ 
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              width: { xs: '100%', sm: 'auto' },
+              gap: 1,
+              mt: { xs: 1, sm: 0 },
+              ml: { sm: 'auto' }
+            }}>
+              {selectedUserIds.length > 0 && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleBulkDelete}
+                  startIcon={<DeleteIcon />}
+                  sx={{ 
+                    borderRadius: 2,
+                    textTransform: 'none',
+                    width: { xs: '100%', sm: 'auto' }
+                  }}
+                >
+                  Delete ({selectedUserIds.length})
+                </Button>
+              )}
               <Button
                 variant="outlined"
-                color="error"
-                onClick={handleBulkDelete}
-                startIcon={<DeleteIcon />}
+                color="primary"
+                onClick={handleExportClick}
+                startIcon={<FileDownloadIcon />}
                 sx={{ 
                   borderRadius: 2,
                   textTransform: 'none',
-                  mr: 1
+                  width: { xs: '100%', sm: 'auto' }
                 }}
               >
-                Delete Selected ({selectedUserIds.length})
+                Export
               </Button>
-            )}
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={handleExportClick}
-              startIcon={<FileDownloadIcon />}
-              sx={{ 
-                borderRadius: 2,
-                textTransform: 'none',
-                mr: 1
-              }}
-            >
-              Export
-            </Button>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              onClick={handleAddUser}
-              startIcon={<AddIcon />}
-              sx={{ 
-                borderRadius: 2,
-                textTransform: 'none'
-              }}
-            >
-              Add User
-            </Button>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={handleAddUser}
+                startIcon={<AddIcon />}
+                sx={{ 
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  width: { xs: '100%', sm: 'auto' }
+                }}
+              >
+                Add User
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Paper>
@@ -365,6 +380,10 @@ export const UserList = () => {
           '& .MuiTableCell-root': {
             borderBottom: 1,
             borderColor: 'divider',
+          },
+          overflowX: 'auto',
+          '& .MuiTable-root': {
+            minWidth: 650
           }
         }}>
           {loading ? (
