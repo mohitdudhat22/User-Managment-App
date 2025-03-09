@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Container, Paper, FormControl, Select, MenuItem, InputLabel, Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 import { authService } from '../services/authService';
 import { toast } from 'react-toastify';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link as MuiLink } from '@mui/material';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -47,12 +49,33 @@ export const Register = () => {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Box sx={{ mt: 8, mb: 4 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography component="h1" variant="h5" align="center">
+      <Box sx={{ 
+        mt: 8, 
+        mb: 4,
+        animation: 'fadeIn 0.3s ease-in-out',
+        '@keyframes fadeIn': {
+          '0%': { opacity: 0, transform: 'translateY(10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' }
+        }
+      }}>
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            p: 4,
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'grey.300',
+            boxShadow: (theme) => theme.shadows[3],
+            transition: 'box-shadow 0.3s ease',
+            '&:hover': {
+              boxShadow: (theme) => theme.shadows[6]
+            }
+          }}
+        >
+          <Typography component="h1" variant="h5" align="center" sx={{ mb: 3, fontWeight: 600 }}>
             Register
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit}>
             <TextField
               margin="normal"
               required
@@ -60,6 +83,11 @@ export const Register = () => {
               name="firstname"
               label="First Name"
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
             />
             <TextField
               margin="normal"
@@ -68,6 +96,11 @@ export const Register = () => {
               name="lastname"
               label="Last Name"
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
             />
             <TextField
               margin="normal"
@@ -77,6 +110,11 @@ export const Register = () => {
               label="Email"
               type="email"
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
             />
             <TextField
               margin="normal"
@@ -86,6 +124,11 @@ export const Register = () => {
               label="Password"
               type="password"
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
             />
             <TextField
               margin="normal"
@@ -94,6 +137,11 @@ export const Register = () => {
               name="contact"
               label="Contact"
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
             />
             <TextField
               margin="normal"
@@ -102,13 +150,26 @@ export const Register = () => {
               name="postcode"
               label="Postcode"
               onChange={handleChange}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
             />
-            <FormControl fullWidth margin="normal">
+            <FormControl 
+              fullWidth 
+              margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                }
+              }}
+            >
               <InputLabel>Gender</InputLabel>
               <Select
                 name="gender"
                 value={formData.gender}
-                onChange={() => handleChange}
+                onChange={handleChange}
               >
                 <MenuItem value="male">Male</MenuItem>
                 <MenuItem value="female">Female</MenuItem>
@@ -116,8 +177,10 @@ export const Register = () => {
               </Select>
             </FormControl>
 
-            <FormGroup>
-              <Typography variant="subtitle1" sx={{ mt: 2 }}>Hobbies</Typography>
+            <FormGroup sx={{ mt: 2 }}>
+              <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
+                Hobbies
+              </Typography>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -142,11 +205,25 @@ export const Register = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ 
+                mt: 3, 
+                mb: 2,
+                borderRadius: 2,
+                textTransform: 'none',
+                py: 1.5
+              }}
               disabled={loading}
             >
               {loading ? 'Registering...' : 'Register'}
             </Button>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary">
+                Already have an account?{' '}
+                <MuiLink component={RouterLink} to="/login" sx={{ textDecoration: 'none' }}>
+                  Sign in here
+                </MuiLink>
+              </Typography>
+            </Box>
           </Box>
         </Paper>
       </Box>

@@ -80,14 +80,33 @@ const UserFormDialog = ({ open, onClose }: UserFormDialogProps) => {
       onClose={onClose} 
       maxWidth="sm" 
       fullWidth
+      TransitionProps={{
+        timeout: 300
+      }}
       PaperProps={{
         sx: {
-          borderRadius: 2,
+          borderRadius: 3,
           bgcolor: 'background.paper',
+          boxShadow: (theme) => theme.shadows[5],
           '& .MuiDialogTitle-root': {
             borderBottom: 1,
             borderColor: 'divider',
-            pb: 2
+            pb: 2,
+            px: 3
+          },
+          '& .MuiDialogContent-root': {
+            px: 3
+          },
+          '& .MuiDialogActions-root': {
+            borderTop: 1,
+            borderColor: 'divider',
+            px: 3,
+            py: 2
+          },
+          '& .MuiTextField-root, & .MuiFormControl-root': {
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 2
+            }
           }
         }
       }}

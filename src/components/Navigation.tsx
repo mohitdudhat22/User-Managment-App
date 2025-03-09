@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { logout } from '../store/slices/authSlice';
@@ -6,9 +6,11 @@ import { authService } from '../services/authService';
 import { useTheme } from '../theme/ThemeProvider';
 import { AppBar, Toolbar, IconButton, Typography, Box } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { RootState } from '../store';
 
 export const Navigation = () => {
   const { mode, toggleColorMode } = useTheme();
+  const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,16 +21,29 @@ export const Navigation = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
+    <AppBar position="static" elevation={1}>
+      <Toolbar sx={{ px: 3 }}>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           User Management
         </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          {user && (
+            <Typography variant="subtitle1" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              Welcome, {user.firstname}
+            </Typography>
+          )}
           <IconButton onClick={toggleColorMode} color="inherit">
             {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          <Button onClick={handleLogout} color="inherit">
+          <Button 
+            onClick={handleLogout} 
+            color="inherit"
+            sx={{ 
+              borderRadius: 2,
+              textTransform: 'none',
+              px: 2
+            }}
+          >
             Logout
           </Button>
         </Box>

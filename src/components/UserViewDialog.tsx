@@ -21,27 +21,33 @@ const UserViewDialog = ({ open, onClose }: UserViewDialogProps) => {
       onClose={onClose} 
       maxWidth="sm" 
       fullWidth
+      TransitionProps={{
+        timeout: 300
+      }}
       PaperProps={{
         sx: {
-          borderRadius: 2,
-          bgcolor: 'background.paper'
+          borderRadius: 3,
+          bgcolor: 'background.paper',
+          boxShadow: (theme) => theme.shadows[5],
+          '& .MuiDialogTitle-root': {
+            borderBottom: 1,
+            borderColor: 'divider',
+            pb: 2,
+            px: 3
+          }
         }
       }}
     >
-      <DialogTitle sx={{ 
-        borderBottom: 1, 
-        borderColor: 'divider',
-        pb: 2 
-      }}>
-        <Typography variant="h6">User Details</Typography>
+      <DialogTitle>
+        <Typography variant="h6" sx={{ fontWeight: 600 }}>User Details</Typography>
       </DialogTitle>
-      <DialogContent sx={{ py: 3 }}>
+      <DialogContent sx={{ px: 3, py: 3 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant="h6" color="primary">
+            <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
               {`${selectedUser.firstname} ${selectedUser.lastname}`}
             </Typography>
-            <Typography color="text.secondary" gutterBottom>
+            <Typography color="text.secondary">
               {selectedUser.email}
             </Typography>
           </Grid>
@@ -70,10 +76,14 @@ const UserViewDialog = ({ open, onClose }: UserViewDialogProps) => {
                     sx={{ 
                       bgcolor: 'primary.main', 
                       color: 'primary.contrastText', 
-                      px: 1.5, 
-                      py: 0.5, 
-                      borderRadius: 1,
-                      fontSize: '0.875rem'
+                      px: 2, 
+                      py: 0.75, 
+                      borderRadius: 2,
+                      fontSize: '0.875rem',
+                      transition: 'transform 0.2s ease',
+                      '&:hover': {
+                        transform: 'scale(1.05)'
+                      }
                     }}
                   >
                     {hobby}

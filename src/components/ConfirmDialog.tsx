@@ -22,34 +22,53 @@ const ConfirmDialog = ({
     <Dialog 
       open={open} 
       onClose={onClose}
+      TransitionProps={{
+        timeout: 300
+      }}
       PaperProps={{
         sx: {
-          borderRadius: 2,
+          borderRadius: 3,
           bgcolor: 'background.paper',
-          minWidth: { xs: '300px', sm: '400px' }
+          minWidth: { xs: '300px', sm: '400px' },
+          boxShadow: (theme) => theme.shadows[5],
+          '& .MuiDialogTitle-root': {
+            borderBottom: 1,
+            borderColor: 'divider',
+            pb: 2,
+            px: 3
+          }
         }
       }}
     >
-      <DialogTitle sx={{ 
-        borderBottom: 1, 
-        borderColor: 'divider',
-        pb: 2 
-      }}>
-        <Typography variant="h6">{title}</Typography>
+      <DialogTitle>
+        <Typography variant="h6" sx={{ fontWeight: 600 }}>{title}</Typography>
       </DialogTitle>
-      <DialogContent sx={{ py: 3 }}>
+      <DialogContent sx={{ px: 3, py: 3 }}>
         <DialogContentText color="text.secondary">
           {content}
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, py: 2, borderTop: 1, borderColor: 'divider' }}>
-        <Button onClick={onClose} variant="outlined">
+      <DialogActions sx={{ px: 3, py: 2, borderTop: 1, borderColor: 'divider', gap: 1 }}>
+        <Button 
+          onClick={onClose} 
+          variant="outlined"
+          sx={{ 
+            borderRadius: 2,
+            textTransform: 'none',
+            px: 3
+          }}
+        >
           Cancel
         </Button>
         <Button 
           onClick={onConfirm} 
           variant="contained" 
-          color="error" 
+          color="error"
+          sx={{ 
+            borderRadius: 2,
+            textTransform: 'none',
+            px: 3
+          }}
           autoFocus
         >
           Confirm

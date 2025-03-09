@@ -10,7 +10,9 @@ import {
   Edit as EditIcon, 
   Delete as DeleteIcon, 
   Visibility as VisibilityIcon,
-  FileDownload as FileDownloadIcon
+  FileDownload as FileDownloadIcon,
+  Search as SearchIcon,
+  Add as AddIcon
 } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { 
@@ -231,74 +233,140 @@ export const UserList = () => {
   };
   
   return (
-    <Box sx={{ width: '100%', p: 3 }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <Toolbar sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 } }}>
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Users
+    <Box sx={{ 
+      width: '100%', 
+      p: 4,
+      animation: 'fadeIn 0.3s ease-in-out',
+      '@keyframes fadeIn': {
+        '0%': { opacity: 0, transform: 'translateY(10px)' },
+        '100%': { opacity: 1, transform: 'translateY(0)' }
+      }
+    }}>
+      <Paper sx={{ 
+        width: '100%', 
+        mb: 2,
+        borderRadius: 3,
+        overflow: 'hidden',
+        boxShadow: (theme) => theme.shadows[3],
+        border: '1px solid',
+        borderColor: 'grey.500'
+      }}>
+        <Box sx={{ 
+          p: 2, 
+          bgcolor: 'background.default',
+          borderBottom: 1,
+          borderColor: 'divider'
+        }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            Users List
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: 2, 
+            flexWrap: 'wrap',
+            alignItems: 'center'
+          }}>
             <TextField
-              label="Search"
-              variant="outlined"
+              placeholder="Search users..."
               size="small"
               value={searchTerm}
               onChange={handleSearch}
+              sx={{
+                minWidth: 220,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 2,
+                  bgcolor: 'background.paper'
+                }
+              }}
+              InputProps={{
+                startAdornment: <SearchIcon color="action" sx={{ mr: 1 }} />
+              }}
             />
-            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-              <InputLabel>Role</InputLabel>
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <InputLabel>Filter by Role</InputLabel>
               <Select
                 value={filters.role}
                 onChange={handleRoleFilter}
-                label="Role"
+                label="Filter by Role"
+                sx={{ 
+                  borderRadius: 2,
+                  bgcolor: 'background.paper'
+                }}
               >
-                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">All Roles</MenuItem>
                 <MenuItem value="admin">Admin</MenuItem>
                 <MenuItem value="user">User</MenuItem>
               </Select>
             </FormControl>
+            <Box sx={{ flexGrow: 1 }} />
+            {selectedUserIds.length > 0 && (
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleBulkDelete}
+                startIcon={<DeleteIcon />}
+                sx={{ 
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  mr: 1
+                }}
+              >
+                Delete Selected ({selectedUserIds.length})
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleExportClick}
+              startIcon={<FileDownloadIcon />}
+              sx={{ 
+                borderRadius: 2,
+                textTransform: 'none',
+                mr: 1
+              }}
+            >
+              Export
+            </Button>
             <Button 
               variant="contained" 
               color="primary" 
               onClick={handleAddUser}
+              startIcon={<AddIcon />}
+              sx={{ 
+                borderRadius: 2,
+                textTransform: 'none'
+              }}
             >
               Add User
             </Button>
-            <Button 
-              variant="contained" 
-              color="secondary" 
-              onClick={handleBulkDelete}
-              disabled={selectedUserIds.length === 0}
-            >
-              Delete Selected
-            </Button>
-            <IconButton 
-              onClick={handleExportClick}
-              color="primary"
-              aria-label="export"
-              aria-controls="export-menu"
-              aria-haspopup="true"
-            >
-              <FileDownloadIcon />
-            </IconButton>
-            <Menu
-              id="export-menu"
-              anchorEl={exportAnchorEl}
-              open={Boolean(exportAnchorEl)}
-              onClose={handleExportClose}
-            >
-              <MenuItem onClick={handleExportCSV}>Export as CSV</MenuItem>
-              <MenuItem onClick={handleExportExcel}>Export as Excel</MenuItem>
-              <MenuItem onClick={handleExportPDF}>Export as PDF</MenuItem>
-            </Menu>
           </Box>
-        </Toolbar>
-        <TableContainer>
+        </Box>
+      </Paper>
+
+      <Paper sx={{ 
+        width: '100%', 
+        mb: 2,
+        borderRadius: 3,
+        overflow: 'hidden',
+        boxShadow: (theme) => theme.shadows[3],
+        transition: 'box-shadow 0.3s ease',
+        '&:hover': {
+          boxShadow: (theme) => theme.shadows[6]
+        }
+      }}>
+        <TableContainer sx={{ 
+          border: 1, 
+          borderColor: 'divider',
+          borderRadius: 1,
+          '& .MuiTable-root': {
+            borderCollapse: 'separate',
+            borderSpacing: 0,
+          },
+          '& .MuiTableCell-root': {
+            borderBottom: 1,
+            borderColor: 'divider',
+          }
+        }}>
           {loading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
               <CircularProgress />
@@ -399,6 +467,16 @@ export const UserList = () => {
           : "Are you sure you want to delete the selected users?"
         }
       />
+
+      <Menu
+        anchorEl={exportAnchorEl}
+        open={Boolean(exportAnchorEl)}
+        onClose={handleExportClose}
+      >
+        <MenuItem onClick={handleExportCSV}>Export as CSV</MenuItem>
+        <MenuItem onClick={handleExportExcel}>Export as Excel</MenuItem>
+        <MenuItem onClick={handleExportPDF}>Export as PDF</MenuItem>
+      </Menu>
     </Box>
   );
 }; 
