@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Container, Paper, FormControl, Select, MenuItem, InputLabel, Checkbox, FormGroup, FormControlLabel } from '@mui/material';
+import { Box, Button, TextField, Typography, Container, Paper, FormControl, Select, MenuItem, InputLabel, Checkbox, FormGroup, FormControlLabel, Chip, IconButton } from '@mui/material';
 import { authService } from '../services/authService';
 import { toast } from 'react-toastify';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link as MuiLink } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ export const Register = () => {
     hobbies: [] as string[]
   });
   const [loading, setLoading] = useState(false);
+  const [newHobby, setNewHobby] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,11 +43,21 @@ export const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleHobbyChange = (hobby: string) => {
-    const updatedHobbies = formData.hobbies.includes(hobby)
-      ? formData.hobbies.filter(h => h !== hobby)
-      : [...formData.hobbies, hobby];
-    setFormData({ ...formData, hobbies: updatedHobbies });
+  const handleAddHobby = () => {
+    if (newHobby.trim() && !formData.hobbies.includes(newHobby.trim())) {
+      setFormData({
+        ...formData,
+        hobbies: [...formData.hobbies, newHobby.trim()]
+      });
+      setNewHobby('');
+    }
+  };
+
+  const handleRemoveHobby = (hobbyToRemove: string) => {
+    setFormData({
+      ...formData,
+      hobbies: formData.hobbies.filter(hobby => hobby !== hobbyToRemove)
+    });
   };
 
   return (
@@ -169,7 +182,7 @@ export const Register = () => {
               <Select
                 name="gender"
                 value={formData.gender}
-                onChange={handleChange}
+                onChange={()=>handleChange}
               >
                 <MenuItem value="male">Male</MenuItem>
                 <MenuItem value="female">Female</MenuItem>
@@ -177,29 +190,48 @@ export const Register = () => {
               </Select>
             </FormControl>
 
-            <FormGroup sx={{ mt: 2 }}>
+            <Box sx={{ mt: 2 }}>
               <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 500 }}>
                 Hobbies
               </Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData.hobbies.includes('reading')}
-                    onChange={() => handleHobbyChange('reading')}
+              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                <TextField
+                  size="small"
+                  value={newHobby}
+                  onChange={(e) => setNewHobby(e.target.value)}
+                  placeholder="Add a hobby"
+                  sx={{
+                    flexGrow: 1,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    }
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddHobby();
+                    }
+                  }}
+                />
+                <IconButton 
+                  onClick={handleAddHobby}
+                  color="primary"
+                  sx={{ borderRadius: 2 }}
+                >
+                  <AddIcon />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {formData.hobbies.map((hobby) => (
+                  <Chip
+                    key={hobby}
+                    label={hobby}
+                    onDelete={() => handleRemoveHobby(hobby)}
+                    sx={{ borderRadius: 2 }}
                   />
-                }
-                label="Reading"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData.hobbies.includes('gaming')}
-                    onChange={() => handleHobbyChange('gaming')}
-                  />
-                }
-                label="Gaming"
-              />
-            </FormGroup>
+                ))}
+              </Box>
+            </Box>
 
             <Button
               type="submit"

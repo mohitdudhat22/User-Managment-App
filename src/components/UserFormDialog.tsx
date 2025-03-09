@@ -62,8 +62,10 @@ const UserFormDialog = ({ open, onClose }: UserFormDialogProps) => {
         }
         dispatch(fetchUsers());
         onClose();
-      } catch (error) {
+      } catch (error:any) {
+        console.log(error);
         toast.error(isEditMode ? 'Failed to update user' : 'Failed to create user');
+        toast.error(error ? error : 'Server Error');
       }
     },
   });

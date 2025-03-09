@@ -1,6 +1,7 @@
 export interface User {
   id: number;
-  name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   role: 'admin' | 'user' | 'manager';
   status: 'active' | 'inactive';
