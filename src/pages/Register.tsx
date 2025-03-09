@@ -39,7 +39,7 @@ export const Register = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -182,7 +182,8 @@ export const Register = () => {
               <Select
                 name="gender"
                 value={formData.gender}
-                onChange={()=>handleChange}
+                onChange={handleChange}
+                label="Gender"
               >
                 <MenuItem value="male">Male</MenuItem>
                 <MenuItem value="female">Female</MenuItem>
