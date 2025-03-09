@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Container, Paper } from '@mui/material';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Box, Button, TextField, Typography, Container, Paper, Link as MuiLink } from '@mui/material';
 import { authService } from '../services/authService';
 import { setCredentials } from '../store/slices/authSlice';
 import { toast } from 'react-toastify';
@@ -44,10 +44,9 @@ export const Login = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      mt: 8,
       px: { xs: 2, sm: 3 }  // Add responsive padding
     }}>
-      <Box sx={{ width: '100%' }}>  // Add width 100%
+      <Box sx={{ width: '100%' }}>  
         <Box
           sx={{
             marginTop: 8,
@@ -129,6 +128,14 @@ export const Login = () => {
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </Button>
+            </Box>
+            <Box sx={{ textAlign: 'center', mt: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                Don't have an account?{' '}
+                <MuiLink component={RouterLink} to="/register" sx={{ textDecoration: 'none' }}>
+                  Sign up here
+                </MuiLink>
+              </Typography>
             </Box>
           </Paper>
         </Box>

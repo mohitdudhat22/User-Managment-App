@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Container, Paper, FormControl, Select, MenuItem, InputLabel, Checkbox, FormGroup, FormControlLabel, Chip, IconButton } from '@mui/material';
+import { Box, Button, TextField, Typography, Container, Paper, FormControl, Select, MenuItem, InputLabel, Chip, IconButton } from '@mui/material';
 import { authService } from '../services/authService';
 import { toast } from 'react-toastify';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link as MuiLink } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import ClearIcon from '@mui/icons-material/Clear';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -66,10 +65,10 @@ export const Register = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      mt: 8,
+      mt: 4,
       px: { xs: 2, sm: 3 }  // Add responsive padding
     }}>
-      <Box sx={{ width: '100%' }}>  // Add width 100%
+      <Box sx={{ width: '100%' }}>
         <Box sx={{ 
           mt: 8, 
           mb: 4,
@@ -257,7 +256,7 @@ export const Register = () => {
               >
                 {loading ? 'Registering...' : 'Register'}
               </Button>
-              <Box sx={{ textAlign: 'center' }}>
+              <Box sx={{ textAlign: 'center', mt: 2 }}>
                 <Typography variant="body2" color="text.secondary">
                   Already have an account?{' '}
                   <MuiLink component={RouterLink} to="/login" sx={{ textDecoration: 'none' }}>

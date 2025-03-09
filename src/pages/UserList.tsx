@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { 
   Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
   TableRow, TablePagination, TableSortLabel, Checkbox, IconButton, 
-  TextField, Button, FormControl, InputLabel, Select, MenuItem, Toolbar,
+  TextField, Button, FormControl, InputLabel, Select, MenuItem,
   Typography, CircularProgress, Menu
 } from '@mui/material';
 import { 
@@ -370,20 +370,11 @@ export const UserList = () => {
         }
       }}>
         <TableContainer sx={{ 
-          border: 1, 
-          borderColor: 'divider',
-          borderRadius: 1,
-          '& .MuiTable-root': {
-            borderCollapse: 'separate',
-            borderSpacing: 0,
-          },
-          '& .MuiTableCell-root': {
-            borderBottom: 1,
-            borderColor: 'divider',
-          },
           overflowX: 'auto',
           '& .MuiTable-root': {
-            minWidth: 650
+            minWidth: 650,
+            borderCollapse: 'separate',
+            borderSpacing: 0
           }
         }}>
           {loading ? (

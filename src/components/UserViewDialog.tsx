@@ -12,8 +12,12 @@ interface UserViewDialogProps {
 
 const UserViewDialog = ({ open, onClose }: UserViewDialogProps) => {
   const { selectedUser } = useSelector((state: RootState) => state.users);
-
+  
   if (!selectedUser) return null;
+
+  const hobbies = typeof selectedUser.hobbies === 'string' 
+    ? JSON.parse(selectedUser.hobbies) 
+    : selectedUser.hobbies;
 
   return (
     <Dialog 
@@ -41,7 +45,7 @@ const UserViewDialog = ({ open, onClose }: UserViewDialogProps) => {
       <DialogTitle>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>User Details</Typography>
       </DialogTitle>
-      <DialogContent sx={{ px: 3, py: 3 }}>
+      <DialogContent sx={{ px: 3, py: 3, mt: 3 }}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h6" color="primary" sx={{ fontWeight: 600 }}>
@@ -66,11 +70,15 @@ const UserViewDialog = ({ open, onClose }: UserViewDialogProps) => {
             <Typography variant="subtitle2" color="text.secondary">Gender</Typography>
             <Typography variant="body1" sx={{ mt: 0.5 }}>{selectedUser.gender || 'N/A'}</Typography>
           </Grid>
-          {selectedUser?.hobbies && Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 && (
+          <Grid item xs={6}>
+            <Typography variant="subtitle2" color="text.secondary">Postcode</Typography>
+            <Typography variant="body1" sx={{ mt: 0.5 }}>{selectedUser.postcode || 'N/A'}</Typography>
+          </Grid>
+          {hobbies && Array.isArray(hobbies) && hobbies.length > 0 && (
             <Grid item xs={12}>
               <Typography variant="subtitle2" color="text.secondary">Hobbies</Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1 }}>
-                {selectedUser.hobbies.map((hobby: string, index: number) => (
+                {hobbies.map((hobby: string, index: number) => (
                   <Box 
                     key={index} 
                     sx={{ 
@@ -79,11 +87,7 @@ const UserViewDialog = ({ open, onClose }: UserViewDialogProps) => {
                       px: 2, 
                       py: 0.75, 
                       borderRadius: 2,
-                      fontSize: '0.875rem',
-                      transition: 'transform 0.2s ease',
-                      '&:hover': {
-                        transform: 'scale(1.05)'
-                      }
+                      fontSize: '0.875rem'
                     }}
                   >
                     {hobby}

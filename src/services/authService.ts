@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const API_URL = 'https://interview.optimavaluepro.com/api/v1';
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = import.meta.env.VITE_BASE_API + '/api/auth' || 'http://localhost:5000/api/auth';
 
 interface LoginCredentials {
   email: string;
