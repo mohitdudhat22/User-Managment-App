@@ -9,28 +9,30 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/dashboard"
-          element={
+      <main className="container mx-auto px-4 py-8">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <UserList />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/users" element={
             <ProtectedRoute>
               <UserList />
             </ProtectedRoute>
-          }
-        />
-        <Route path="/users" element={
-          <ProtectedRoute>
-            <UserList />
-          </ProtectedRoute>
-        } />
-        <Route path="/" element={<Navigate to="/login" replace />} />
-      </Routes>
+          } />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </main>
       <ToastContainer />
-    </>
+    </div>
   );
 }
 
